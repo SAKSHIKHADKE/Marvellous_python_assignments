@@ -1,0 +1,43 @@
+import sys
+import os
+
+def check(value1,value2,value3):
+    ret=os.path.exists(value1)
+
+    if ret == False:
+        print("directory dont exist")
+        exit()
+
+    ret=os.path.isdir(value1)
+
+    if ret==False:
+        print("input is file not directory")
+        exit()
+
+    for foldername,subfolders,files in os.walk(value1):
+        for fname in files:
+            if fname.endswith(value2):
+                old_file=os.path.join(foldername,fname)
+                new_file=os.path.join(foldername,os.path.splitext(fname)[0]+value2)  #new file path
+                os.rename(old_file,new_file)
+                print(new_file)
+
+def main():
+    if len(sys.argv)==4:
+        name=sys.argv[1]
+        extension1=sys.argv[2]
+        extension2=sys.argv[3]
+
+    elif len(sys.argv)==1:
+        name=input("enter directory name :")
+        extension1=input("enter extension which you want to search:")
+        extension2=input("enter extension you want to change:")
+
+    else:
+        print("invalid number of argument")
+        exit()
+
+    check(name,extension1,extension2) 
+
+if __name__=="__main__":
+    main()                                                
